@@ -11,8 +11,9 @@
 
 ## ไฟล์
 - `index.html` — Case Study เต็ม (Role Model Extraction)
-- `training.html` — 🎓 แผนฝึกคนใหม่ (Role Model Extraction Training 5 วัน)
-- `hr-extraction-workflow.md` — 📋 Workflow 6 ขั้น + ทักษะ HR 6 ด้าน
+- `training.html` — 🎓 แผนฝึกคนใหม่ (Role Model Extraction Training 6 วัน)
+- `training-curriculum.html` — 📚 Training Curriculum (ฝึกคนให้เป็น Role Model แบบสมาชิกทีม KBB)
+- `hr-extraction-workflow.md` — 📋 Workflow 7 ขั้น + ทักษะ HR 7 ด้าน
 
 ---
 สร้างโดย อลิเคล้า (AliClaw) · 22 ก.ค. 2569
