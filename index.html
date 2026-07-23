@@ -374,6 +374,35 @@
     padding-top: 20px;
     border-top: 1px solid #ddd;
   }
+
+  /* ===== HR Compare Table (HR 3 ยุค) ===== */
+  .hr-compare-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0;
+    font-size: 14px;
+    background: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0,0,0,.05);
+  }
+  .hr-compare-table thead th {
+    background: #1e3a8a;
+    color: #fff;
+    padding: 12px 14px;
+    text-align: left;
+    font-weight: 600;
+  }
+  .hr-compare-table td {
+    padding: 12px 14px;
+    border-bottom: 1px solid #e5e7eb;
+    vertical-align: top;
+  }
+  .hr-compare-table tr:nth-child(even) { background: #f9fafb; }
+  .hr-compare-table .old { background: #fee2e2; }
+  .hr-compare-table .new { background: #d1fae5; }
+  .hr-compare-table .audit { background: #fee2e2; }
+  .hr-compare-table .audit strong { color: #1e3a8a; }
 </style>
 </head>
 <body>
@@ -935,43 +964,47 @@
   </div>
 
   <!-- ===== เปรียบเทียบ 3 ยุค ===== -->
-  <h2 style="margin-top:32px">🆚 เปรียบเทียบ: HR 3 ยุค</h2>
-  <table>
-    <tr><th>มิติ</th><th>HR แบบเดิม</th><th>HR ที่สกัด Role Model</th><th>HR ที่มี Audit 🆕</th></tr>
-    <tr>
-      <td><strong>เป้าหมาย</strong></td>
-      <td style="background:#fee2e2">คัดคนเก่ง</td>
-      <td style="background:#d1fae5">สกัด "ความเก่ง" ออกมาเป็น Model</td>
-      <td style="background:#fee2e2"><strong>สกัด + ยืนยันว่า "ความเก่ง" นั้นจริง</strong></td>
-    </tr>
-    <tr>
-      <td><strong>เครื่องมือ</strong></td>
-      <td style="background:#fee2e2">Resume + Interview</td>
-      <td style="background:#d1fae5">เคสจริง + STAR + 3 มิติ + Rubric</td>
-      <td style="background:#fee2e2">+ Audit Checklist + Multi-rater</td>
-    </tr>
-    <tr>
-      <td><strong>ผลลัพธ์</strong></td>
-      <td style="background:#fee2e2">คนได้ตำแหน่ง</td>
-      <td style="background:#d1fae5">คนได้ตำแหน่ง + คนอื่นเอาไปเรียนได้</td>
-      <td style="background:#fee2e2"><strong>+ ป้องกัน Role Model ปลอม</strong></td>
-    </tr>
-    <tr>
-      <td><strong>ความรู้</strong></td>
-      <td style="background:#fee2e2">อยู่ในตัวคน</td>
-      <td style="background:#d1fae5">กลายเป็น Model ที่องค์กรใช้ซ้ำได้</td>
-      <td style="background:#fee2e2"><strong>+ Model ที่ "ตรวจสอบได้"</strong></td>
-    </tr>
-    <tr>
-      <td><strong>จุดอ่อน</strong></td>
-      <td style="background:#fee2e2">คน "เล่าเก่ง" แต่ทำไม่เป็น</td>
-      <td style="background:#d1fae5">คน "ทำจริง" แต่เล่าไม่เป็นก็ติด 5-6 ได้</td>
-      <td style="background:#fee2e2"><strong>ตรวจได้ครบทั้ง 2 ด้าน</strong></td>
-    </tr>
+  <h2 style="margin-top:32px"><span style="background:#f97316;color:#fff;padding:4px 10px;border-radius:6px;font-size:0.85em;margin-right:8px">vs</span>เปรียบเทียบ: HR 3 ยุค</h2>
+  <table class="hr-compare-table">
+    <thead>
+      <tr><th>มิติ</th><th>HR แบบเดิม</th><th>HR ที่สกัด Role Model</th><th>HR ที่มี Audit 🆕</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>เป้าหมาย</strong></td>
+        <td class="old">คัดคนเก่ง</td>
+        <td class="new">สกัด "ความเก่ง" ออกมาเป็น Model</td>
+        <td class="audit"><strong>สกัด + ยืนยันว่า "ความเก่ง" นั้นจริง</strong></td>
+      </tr>
+      <tr>
+        <td><strong>เครื่องมือ</strong></td>
+        <td class="old">Resume + Interview</td>
+        <td class="new">เคสจริง + STAR + 3 มิติ + Rubric</td>
+        <td class="audit">+ Audit Checklist + Multi-rater</td>
+      </tr>
+      <tr>
+        <td><strong>ผลลัพธ์</strong></td>
+        <td class="old">คนได้ตำแหน่ง</td>
+        <td class="new">คนได้ตำแหน่ง + คนอื่นเอาไปเรียนได้</td>
+        <td class="audit"><strong>+ ป้องกัน Role Model ปลอม</strong></td>
+      </tr>
+      <tr>
+        <td><strong>ความรู้</strong></td>
+        <td class="old">อยู่ในตัวคน</td>
+        <td class="new">กลายเป็น Model ที่องค์กรใช้ซ้ำได้</td>
+        <td class="audit"><strong>+ Model ที่ "ตรวจสอบได้"</strong></td>
+      </tr>
+      <tr>
+        <td><strong>จุดอ่อน</strong></td>
+        <td class="old">คน "เล่าเก่ง" แต่ทำไม่เป็น</td>
+        <td class="new">คน "ทำจริง" แต่เล่าไม่เป็นก็ติด 5-6 ได้</td>
+        <td class="audit"><strong>ตรวจได้ครบทั้ง 2 ด้าน</strong></td>
+      </tr>
+    </tbody>
   </table>
 
   <div class="insight-box">
-    <strong>💡 Lesson จาก Fudan:</strong> แม้ AI ที่ไม่มีจิตใจ/กิเลส ยังโกงได้เมื่อถูกตั้งเป้า "ต้องชนะ" — HR ที่ดีต้อง <strong>ตรวจสอบ + ยืนยัน</strong> ก่อนเชื่อ Role Model ใดๆ
+    <strong>💡 Lesson จาก Fudan:</strong> แม้ AI ที่ไม่มีจิตใจ/กิเลส ยังโกงได้เมื่อถูกตั้งเป้า "ต้องชนะ" — HR ที่ดีต้อง <strong style="color:#dc2626">ตรวจสอบ + ยืนยัน</strong> ก่อนเชื่อ Role Model ใดๆ
   </div>
 
   <div class="curriculum-footer">
