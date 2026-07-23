@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>แผนฝึกคนใหม่ — Role Model Extraction Training</title>
+<style>
+  :root{
+    --primary:#1e3a8a;
+    --primary-light:#3b82f6;
+    --accent:#f59e0b;
+    --success:#10b981;
+    --bg:#f8fafc;
+    --card:#ffffff;
+    --text:#1f2937;
+    --muted:#6b7280;
+    --border:#e5e7eb;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Sarabun','Prompt',-apple-system,sans-serif;background:var(--bg);color:var(--text);line-height:1.7;padding:20px}
+  .container{max-width:1200px;margin:0 auto}
+  header{background:linear-gradient(135deg,var(--primary),var(--primary-light));color:white;padding:32px;border-radius:16px;margin-bottom:24px;box-shadow:0 4px 20px rgba(30,58,138,.2)}
+  header h1{font-size:28px;margin-bottom:8px}
+  header p{opacity:.95;font-size:15px}
+  .breadcrumb{font-size:13px;opacity:.85;margin-bottom:12px}
+  .breadcrumb a{color:white;text-decoration:underline}
+  
+  /* Quick nav */
+  .quick-nav{background:var(--card);border-radius:12px;padding:20px;margin-bottom:24px;border:1px solid var(--border);display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
+  .quick-nav a{padding:8px 16px;background:var(--bg);border-radius:8px;text-decoration:none;color:var(--primary);font-size:14px;font-weight:600;border:1px solid var(--border);transition:all .2s}
+  .quick-nav a:hover{background:var(--primary);color:white;transform:translateY(-1px)}
+  
+  /* Section */
+  section{background:var(--card);border-radius:12px;padding:24px;margin-bottom:20px;border:1px solid var(--border);box-shadow:0 1px 3px rgba(0,0,0,.04)}
+  h2{color:var(--primary);font-size:22px;margin-bottom:16px;padding-bottom:8px;border-bottom:2px solid var(--primary-light)}
+  h3{color:var(--primary);font-size:18px;margin:20px 0 10px}
+  h4{color:var(--text);font-size:16px;margin:16px 0 8px;font-weight:700}
+  
+  /* Hero principle */
+  .hero-principle{background:linear-gradient(135deg,#fef3c7,#fde68a);border-left:5px solid var(--accent);padding:20px 24px;border-radius:8px;margin-bottom:20px;font-size:15px}
+  .hero-principle strong{color:#92400e}
+  
+  /* Mapping table */
+  .mapping-table{width:100%;border-collapse:collapse;margin:16px 0;font-size:14px}
+  .mapping-table th{background:var(--primary);color:white;padding:12px;text-align:left;font-weight:600}
+  .mapping-table td{padding:12px;border-bottom:1px solid var(--border);vertical-align:top}
+  .mapping-table tr:nth-child(even){background:#f9fafb}
+  .mapping-table .skill-badge{display:inline-block;padding:4px 10px;border-radius:12px;font-size:12px;font-weight:600;color:white}
+  .s1{background:#3b82f6} .s2{background:#8b5cf6} .s3{background:#ec4899}
+  .s4{background:#f59e0b} .s5{background:#10b981} .s6{background:#06b6d4}
+  
+  /* Training plan */
+  .training-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;margin:20px 0}
+  .training-day{background:linear-gradient(135deg,#eff6ff,#dbeafe);border-radius:12px;padding:20px;border:1px solid #bfdbfe;transition:transform .2s}
+  .training-day:hover{transform:translateY(-2px);box-shadow:0 8px 16px rgba(30,58,138,.1)}
+  .training-day .day-num{display:inline-block;background:var(--primary);color:white;padding:4px 12px;border-radius:20px;font-size:12px;font-weight:700;margin-bottom:8px}
+  .training-day h4{color:var(--primary);margin:8px 0}
+  .training-day .duration{font-size:13px;color:var(--muted);margin-bottom:10px}
+  .training-day ul{list-style:none;font-size:14px}
+  .training-day ul li{padding:6px 0 6px 22px;position:relative}
+  .training-day ul li::before{content:"✓";position:absolute;left:0;color:var(--success);font-weight:bold}
+  
+  /* Workflow */
+  .workflow{background:#f9fafb;padding:20px;border-radius:8px;margin:20px 0;font-family:'Courier New',monospace;font-size:13px;line-height:1.5;overflow-x:auto;white-space:pre}
+  
+  /* Step detail */
+  .step{background:linear-gradient(to right,#eff6ff,white);border-left:5px solid var(--primary);border-radius:8px;padding:18px 20px;margin:16px 0}
+  .step-header{display:flex;align-items:center;gap:12px;margin-bottom:10px}
+  .step-num{background:var(--primary);color:white;width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;flex-shrink:0}
+  .step h4{margin:0;flex:1}
+  .step-skill{background:var(--accent);color:white;padding:4px 10px;border-radius:12px;font-size:12px;font-weight:600;white-space:nowrap}
+  .step table{width:100%;margin-top:10px;font-size:14px}
+  .step td{padding:6px 8px;vertical-align:top}
+  .step td:first-child{font-weight:600;color:var(--primary);width:30%}
+  .step-insight{background:#fef3c7;border-radius:6px;padding:10px 14px;margin-top:10px;font-size:14px;color:#78350f}
+  .step-insight strong{color:var(--accent)}
+  
+  /* Compare table */
+  .compare-table{width:100%;border-collapse:collapse;margin:16px 0;font-size:14px}
+  .compare-table th{background:var(--primary);color:white;padding:12px;text-align:left}
+  .compare-table td{padding:12px;border:1px solid var(--border);vertical-align:top}
+  .compare-table .old{background:#fee2e2}
+  .compare-table .new{background:#d1fae5}
+  
+  /* CTA */
+  .cta{background:linear-gradient(135deg,var(--primary),var(--primary-light));color:white;padding:24px;border-radius:12px;text-align:center;margin:24px 0}
+  .cta a{background:white;color:var(--primary);padding:12px 24px;border-radius:8px;text-decoration:none;font-weight:700;display:inline-block;margin:8px;transition:transform .2s}
+  .cta a:hover{transform:scale(1.05)}
+  
+  /* Footer */
+  footer{text-align:center;color:var(--muted);font-size:13px;margin-top:30px;padding:20px}
+  
+  /* Print */
+  @media print{
+    .quick-nav,.cta{display:none}
+    body{padding:0;background:white}
+    section{break-inside:avoid;box-shadow:none}
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+<div class="breadcrumb">
+  <a href="https://rattapornkachakaewpkg-commits.github.io/role-model/">← กลับไป Role Model — เคส AAM take care</a>
+</div>
+
+<header>
+  <h1>🎓 แผนฝึกคนใหม่ — Role Model Extraction Training</h1>
+  <p>สอน HR ให้ "สกัด Role Model" จากเคสจริงได้ภายใน 5 วัน โดยใช้ทักษะ HR 6 ด้าน</p>
+</header>
+
+<nav class="quick-nav">
+  <a href="#principle">หลักคิด</a>
+  <a href="#mapping">Mapping 6 ทักษะ</a>
+  <a href="#plan">แผนฝึก 5 วัน</a>
+  <a href="#workflow">Workflow 6 ขั้น</a>
+  <a href="#compare">เปรียบเทียบ</a>
+  <a href="#start">เริ่มใช้</a>
+</nav>
+
+<section id="principle">
+  <h2>💡 หลักคิด: HR ไม่ได้แค่ "คัดคน" — แต่ "สกัดความรู้จากคนที่ทำได้ดี"</h2>
+  
+  <div class="hero-principle">
+    <strong>เป้าหมาย:</strong> เปลี่ยน HR จาก "คนคัดเลือก" → "คนสกัด Role Model" ที่ทำให้องค์กรมี Model วัดผลได้ + ถ่ายทอดได้
+  </div>
+  
+  <h3>ทำไมต้องสกัด Role Model?</h3>
+  <ul style="margin-left:24px;margin-top:8px">
+    <li>🧠 <strong>Tacit Knowledge หายไป</strong> เมื่อคนเก่งลาออก / เกษียณ</li>
+    <li>📋 <strong>Model ที่ชัด</strong> ช่วยให้คนอื่นเรียนรู้ได้เร็วขึ้น 5-10 เท่า</li>
+    <li>🏆 <strong>Recognition ที่ยุติธรรม</strong> เพราะใช้เกณฑ์เดียวกัน (Rubric)</li>
+    <li>🔄 <strong>ความรู้หมุนเวียน</strong> ไม่หยุดอยู่ที่คนเดียว</li>
+  </ul>
+</section>
+
+<section id="mapping">
+  <h2>🗺️ Mapping: ทักษะ HR 6 ด้าน → ขั้นตอนสกัด</h2>
+  <p style="margin-bottom:12px">การสกัด Role Model ไม่ใช่ "งานวิชาการ" แต่คือ <strong>การนำทักษะ HR ที่ HR ทุกคนมีอยู่แล้ว</strong> มาใช้ให้ครบวงจร</p>
+  
+  <table class="mapping-table">
+    <thead>
+      <tr><th>#</th><th>ทักษะ HR</th><th>ขั้นที่ใช้</th><th>ผลผลิต</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>1</strong></td>
+        <td><span class="skill-badge s1">Observation</span><br>สังเกต</td>
+        <td>1 — Triage (คัดเคส)</td>
+        <td>เคสที่ผ่านเกณฑ์</td>
+      </tr>
+      <tr>
+        <td><strong>2</strong></td>
+        <td><span class="skill-badge s2">Interviewing</span><br>สัมภาษณ์</td>
+        <td>2 — STAR</td>
+        <td>คำให้การเชิงลึก</td>
+      </tr>
+      <tr>
+        <td><strong>3</strong></td>
+        <td><span class="skill-badge s3">KM</span><br>Knowledge Management</td>
+        <td>3 — แมป 3 มิติ</td>
+        <td>Value Framework</td>
+      </tr>
+      <tr>
+        <td><strong>4</strong></td>
+        <td><span class="skill-badge s4">Coaching</span><br>โค้ช</td>
+        <td>4 — Self-Reflection</td>
+        <td>เคสของตัวเอง</td>
+      </tr>
+      <tr>
+        <td><strong>5</strong></td>
+        <td><span class="skill-badge s5">Assessment</span><br>ประเมิน</td>
+        <td>5 — Scoring Rubric</td>
+        <td>คะแนน Rubric</td>
+      </tr>
+      <tr>
+        <td><strong>6</strong></td>
+        <td><span class="skill-badge s6">L&D</span><br>Learning & Development</td>
+        <td>6 — ถ่ายทอด (4 Outputs)</td>
+        <td>Story / Guide / Behavior / Recognition</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<section id="plan">
+  <h2>📅 แผนฝึก 5 วัน (สำหรับ HR ที่เริ่มต้น)</h2>
+  <p style="margin-bottom:12px">เรียนรู้ 1 ขั้นต่อวัน + ฝึกปฏิบัติกับเคสจริงที่องค์กรมีอยู่</p>
+  
+  <div class="training-grid">
+    <div class="training-day">
+      <span class="day-num">DAY 1</span>
+      <h4>🎯 Triage + STAR</h4>
+      <div class="duration">⏱️ 4 ชั่วโมง (ครึ่งวัน)</div>
+      <ul>
+        <li>เรียนรู้เกณฑ์คัดเคส 5 ข้อ</li>
+        <li>ฝึกใช้ STAR สัมภาษณ์คู่</li>
+        <li>Workshop: คัดเคสจริง 3 เคส</li>
+        <li>เลือก 1 เคสเข้าสู่กระบวนการ</li>
+      </ul>
+    </div>
+    
+    <div class="training-day">
+      <span class="day-num">DAY 2</span>
+      <h4>🧭 แมป 3 มิติ + Reflection</h4>
+      <div class="duration">⏱️ 4 ชั่วโมง (ครึ่งวัน)</div>
+      <ul>
+        <li>เรียนรู้ Value Framework 3 มิติ</li>
+        <li>ฝึกแยก "พฤติกรรม" vs "ค่านิยม"</li>
+        <li>Workshop: แมปเคสจริงเข้า 3 มิติ</li>
+        <li>ฝึก Self-Reflection (3 คำถาม)</li>
+      </ul>
+    </div>
+    
+    <div class="training-day">
+      <span class="day-num">DAY 3</span>
+      <h4>📊 Scoring Rubric + Calibration</h4>
+      <div class="duration">⏱️ 4 ชั่วโมง (ครึ่งวัน)</div>
+      <ul>
+        <li>เรียนรู้ Rubric 4 ระดับ (9-10 / 7-8 / 5-6 / 1-4)</li>
+        <li>ฝึกให้คะแนนเคสตัวอย่าง</li>
+        <li>Calibration: เปรียบเทียบคะแนน HR หลายคน</li>
+        <li>ตกลง "เกณฑ์ผ่าน" ขององค์กร</li>
+      </ul>
+    </div>
+    
+    <div class="training-day">
+      <span class="day-num">DAY 4</span>
+      <h4>🎁 ผลิต 4 Outputs</h4>
+      <div class="duration">⏱️ 6 ชั่วโมง (เต็มวัน)</div>
+      <ul>
+        <li>ฝึกเขียน Story Script (5 นาที)</li>
+        <li>ฝึกเขียน Guide คำถาม</li>
+        <li>ฝึกแยก Behavior Indicators</li>
+        <li>ฝึกเขียน Recognition Criteria</li>
+      </ul>
+    </div>
+    
+    <div class="training-day">
+      <span class="day-num">DAY 5</span>
+      <h4>🎤 นำเสนอ + รับ Feedback</h4>
+      <div class="duration">⏱️ 4 ชั่วโมง (ครึ่งวัน)</div>
+      <ul>
+        <li>แต่ละคนนำเสนอ 4 Outputs ของตัวเอง</li>
+        <li>Peer feedback + Senior HR feedback</li>
+        <li>ปรับแก้ + เตรียมเผยแพร่</li>
+        <li>Certificate: "Role Model Extractor"</li>
+      </ul>
+    </div>
+  </div>
+  
+  <div class="step-insight" style="margin-top:16px">
+    <strong>💡 เคล็ดลับ:</strong> ฝึกกับเคสจริง 1 เคส ตลอด 5 วัน — ไม่ใช่เปลี่ยนเคสทุกวัน เพราะจะได้เห็น "วงจรครบ" ตั้งแต่ Triage → ถ่ายทอด
+  </div>
+</section>
+
+<section id="workflow">
+  <h2>🔄 Workflow 6 ขั้น (ภาพรวม)</h2>
+  
+  <div class="workflow">┌─────────────────────────────────────────────────────────────────┐
+│  🎬 INPUT: เคสจริงจากสนาม                                      │
+│  (เช่น "ปาร์ตี้ไปเยี่ยมลุงช่วงโควิด")                          │
+└──────────────────────────┬──────────────────────────────────────┘
+                           ▼
+        ┌──────────────────────────────────────┐
+        │  ขั้น 1: คัดเลือกเคส (Triage)        │
+        │  🎯 ทักษะ: Observation                │
+        │  "เคสนี้มี Role Model ไหม?"           │
+        └──────────────┬───────────────────────┘
+                       ▼
+        ┌──────────────────────────────────────┐
+        │  ขั้น 2: สัมภาษณ์ STAR (BEI)         │
+        │  🎤 ทักษะ: Interviewing               │
+        │  "ถามเจาะลึก 4 มิติ"                  │
+        └──────────────┬───────────────────────┘
+                       ▼
+        ┌──────────────────────────────────────┐
+        │  ขั้น 3: แมป 3 มิติค่านิยม            │
+        │  🧭 ทักษะ: KM                        │
+        │  "ย่อยสู่ Value Framework"            │
+        └──────────────┬───────────────────────┘
+                       ▼
+        ┌──────────────────────────────────────┐
+        │  ขั้น 4: Self-Reflection              │
+        │  🪞 ทักษะ: Coaching                  │
+        │  "ให้คนยกเคสตัวเอง"                   │
+        └──────────────┬───────────────────────┘
+                       ▼
+        ┌──────────────────────────────────────┐
+        │  ขั้น 5: ให้คะแนน (Scoring)           │
+        │  📊 ทักษะ: Assessment                │
+        │  "Rubric 4 ระดับ"                     │
+        └──────────────┬───────────────────────┘
+                       ▼
+        ┌──────────────────────────────────────┐
+        │  ขั้น 6: ปิดเคส + ถ่ายทอด              │
+        │  🎁 ทักษะ: L&D                       │
+        │  "Story/Guide/Behavior/Recognition"   │
+        └──────────────┬───────────────────────┘
+                       ▼
+┌──────────────────────────────────────────────────────────────────┐
+│  📦 OUTPUT: Role Model Profile (4 ชิ้น) + คนที่ผ่านเกณฑ์ 7+   │
+└──────────────────────────────────────────────────────────────────┘</div>
+  
+  <h3>📋 รายละเอียดแต่ละขั้น</h3>
+  
+  <div class="step">
+    <div class="step-header">
+      <div class="step-num">1</div>
+      <h4>คัดเลือกเคส (Triage)</h4>
+      <span class="step-skill">🎯 Observation</span>
+    </div>
+    <table>
+      <tr><td>HR ทำอะไร</td><td>รับเคสจากหน้างาน → กรองว่า "เคสนี้มี Role Model ไหม?"</td></tr>
+      <tr><td>เกณฑ์คัดเข้า</td><td>• เคสที่คนทำ "เกินหน้าที่" • มี "ต้นทุนที่จ่ายเอง" • มี "ผลลัพธ์ที่จับต้องได้"</td></tr>
+      <tr><td>ตัวอย่าง</td><td>เคสปาร์ตี้ → ✅ ผ่าน (ลงพื้นเอง + จ่ายต้นทุน + เกิดกองทุน AAM take care)</td></tr>
+      <tr><td>เครื่องมือ</td><td>Checklist 5 ข้อ (Behavior Indicators)</td></tr>
+    </table>
+    <div class="step-insight">💡 <strong>ทักษะ HR:</strong> ความสามารถสังเกต + แยกแยะ "เคสธรรมดา" vs "เคสที่ซ่อน Role Model"</div>
+  </div>
+  
+  <div class="step">
+    <div class="step-header">
+      <div class="step-num">2</div>
+      <h4>สัมภาษณ์ STAR (BEI)</h4>
+      <span class="step-skill">🎤 Interviewing</span>
+    </div>
+    <table>
+      <tr><td>HR ทำอะไร</td><td>นัด Role Model สัมภาษณ์ 1-on-1 ใช้คำถาม STAR 4 ขั้น</td></tr>
+      <tr><td>คำถามหลัก</td><td><strong>S</strong> สถานการณ์? <strong>T</strong> หน้าที่? <strong>A</strong> ทำอะไร? <strong>R</strong> ผล?</td></tr>
+      <tr><td>ตัวอย่าง</td><td>"ปาร์ตี้ — ตอนโทรไม่ติด คิดอะไร? ทำไมถึงลงพื้นเอง?"</td></tr>
+      <tr><td>เครื่องมือ</td><td>คำถาม STAR 4 ข้อ + คำถาม Follow-up</td></tr>
+    </table>
+    <div class="step-insight">💡 <strong>ทักษะ HR:</strong> ถามเจาะลึกโดยไม่ชี้นำ + ฟัง "ความเงียบ" + จับ "ต้นทุนที่จ่ายเอง"</div>
+  </div>
+  
+  <div class="step">
+    <div class="step-header">
+      <div class="step-num">3</div>
+      <h4>แมป 3 มิติค่านิยม</h4>
+      <span class="step-skill">🧭 Knowledge Management</span>
+    </div>
+    <table>
+      <tr><td>HR ทำอะไร</td><td>นำคำให้การจากขั้น 2 → แมปเข้า 3 มิติ</td></tr>
+      <tr><td>3 มิติ</td><td>🟢 เจ้าของลูกค้า · 🟡 อัตโนมัตในการรับใช้ · 🔵 Unique ในการให้บริการ</td></tr>
+      <tr><td>ตัวอย่าง</td><td>"โทรไม่ติด → ไปหาเอง" → 🟢 "ลูกค้าเป็นของฉัน ไม่ใช่ของหน้าที่"</td></tr>
+      <tr><td>เครื่องมือ</td><td>Value Framework 3 มิติ + ตาราง Mapping</td></tr>
+    </table>
+    <div class="step-insight">💡 <strong>ทักษะ HR:</strong> แยก "พฤติกรรม" ออกจาก "ค่านิยมที่ซ่อนอยู่" — เปลี่ยน tacit → explicit</div>
+  </div>
+  
+  <div class="step">
+    <div class="step-header">
+      <div class="step-num">4</div>
+      <h4>Self-Reflection</h4>
+      <span class="step-skill">🪞 Coaching</span>
+    </div>
+    <table>
+      <tr><td>HR ทำอะไร</td><td>ถาม Role Model ให้ "ยกเคสตัวเอง" 3 คำถาม</td></tr>
+      <tr><td>คำถาม</td><td>• เคสภูมิใจสุด 6 เดือน? • เคส "ไม่มีใครเห็น" แต่ทำ? • สอนน้องใหม่เรื่องอะไรก่อน?</td></tr>
+      <tr><td>ตัวอย่าง</td><td>ปาร์ตี้: "เคสลุงป่วย → ไม่มี KPI แต่ยังไปเยี่ยมต่อ"</td></tr>
+      <tr><td>เครื่องมือ</td><td>คำถาม Self-Reflection 3 ข้อ + Active Listening</td></tr>
+    </table>
+    <div class="step-insight">💡 <strong>ทักษะ HR:</strong> โค้ชให้คน "เห็นตัวเอง" โดยไม่ตัดสิน — ดึงความภูมิใจออกมา</div>
+  </div>
+  
+  <div class="step">
+    <div class="step-header">
+      <div class="step-num">5</div>
+      <h4>ให้คะแนน (Scoring)</h4>
+      <span class="step-skill">📊 Assessment</span>
+    </div>
+    <table>
+      <tr><td>HR ทำอะไร</td><td>ให้คะแนน Role Model ตาม Rubric 4 ระดับ</td></tr>
+      <tr><td>Rubric</td><td>9-10 ต้นแบบ · 7-8 กำลังพัฒนา · 5-6 ทำตามหน้าที่ดี · 1-4 ต้องพัฒนา</td></tr>
+      <tr><td>ตัวอย่าง</td><td>ปาร์ตี้: 9-10 (สร้างกองทุน AAM take care + ต้นทุนสูง)</td></tr>
+      <tr><td>เครื่องมือ</td><td>Scoring Rubric 1 หน้า + Multi-rater (HR + หัวหน้า)</td></tr>
+    </table>
+    <div class="step-insight">💡 <strong>ทักษะ HR:</strong> วัดผลด้วยเกณฑ์ชัดเจน ไม่ bias + แยก "ดี" vs "ต้นแบบ"</div>
+  </div>
+  
+  <div class="step">
+    <div class="step-header">
+      <div class="step-num">6</div>
+      <h4>ปิดเคส + ถ่ายทอด</h4>
+      <span class="step-skill">🎁 L&D</span>
+    </div>
+    <table>
+      <tr><td>HR ทำอะไร</td><td>ปิดเคส + ผลิต 4 ชิ้น + ถ่ายทอดสู่คนอื่น</td></tr>
+      <tr><td>4 Outputs</td><td>📖 Story Script · ❓ Guide คำถาม · 📊 Behavior Indicators · 🏆 Recognition</td></tr>
+      <tr><td>ตัวอย่าง</td><td>เคสปาร์ตี้ → 4 ชิ้น live ที่ <code>index.html</code></td></tr>
+      <tr><td>เครื่องมือ</td><td>Template 4 ชิ้น + ช่องทางเผยแพร่</td></tr>
+    </table>
+    <div class="step-insight">💡 <strong>ทักษะ HR:</strong> ทำให้ความรู้ "หมุนเวียน" — ไม่หยุดอยู่ที่คนเดียว</div>
+  </div>
+</section>
+
+<section id="compare">
+  <h2>🆚 เปรียบเทียบ: HR แบบเดิม vs HR ที่สกัด Role Model</h2>
+  <table class="compare-table">
+    <thead>
+      <tr><th>มิติ</th><th>HR แบบเดิม</th><th>HR ที่สกัด Role Model</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>เป้าหมาย</strong></td>
+        <td class="old">คัดคนเก่ง</td>
+        <td class="new"><strong>สกัด "ความเก่ง" ออกมาเป็น Model</strong></td>
+      </tr>
+      <tr>
+        <td><strong>เครื่องมือ</strong></td>
+        <td class="old">Resume + Interview</td>
+        <td class="new">เคสจริง + STAR + 3 มิติ + Rubric</td>
+      </tr>
+      <tr>
+        <td><strong>ผลลัพธ์</strong></td>
+        <td class="old">คนได้ตำแหน่ง</td>
+        <td class="new"><strong>คนได้ตำแหน่ง + คนอื่นเอาไปเรียนได้</strong></td>
+      </tr>
+      <tr>
+        <td><strong>ความรู้</strong></td>
+        <td class="old">อยู่ในตัวคน</td>
+        <td class="new"><strong>กลายเป็น Model ที่องค์กรใช้ซ้ำได้</strong></td>
+      </tr>
+      <tr>
+        <td><strong>การวัดผล</strong></td>
+        <td class="old">ผลงาน (Output)</td>
+        <td class="new">ผลงาน + Model ที่สกัดได้ (Output + Asset)</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<section id="start">
+  <h2>🚀 เริ่มใช้ทันที</h2>
+  <ol style="margin-left:24px;line-height:2">
+    <li>📋 <strong>เปิด HR Toolkit 5 ส่วน</strong> ที่ <a href="https://rattapornkachakaewpkg-commits.github.io/role-model/">index.html</a> (section 👥)</li>
+    <li>📅 <strong>เลือกแผนฝึก 5 วัน</strong> ที่เหมาะกับทีม HR</li>
+    <li>🎯 <strong>เริ่ม Day 1: Triage + STAR</strong> ด้วยเคสจริง 1 เคส</li>
+    <li>🎤 <strong>Day 5: นำเสนอ + รับ Feedback</strong> จาก Senior HR</li>
+    <li>🔁 <strong>ทำซ้ำทุกเดือน</strong> กับเคสใหม่ → สะสม Role Model Library</li>
+  </ol>
+  
+  <div class="cta">
+    <h3 style="color:white;margin-bottom:16px">พร้อมเริ่มแล้ว?</h3>
+    <a href="https://rattapornkachakaewpkg-commits.github.io/role-model/">📖 ดู Role Model Case Study</a>
+    <a href="hr-extraction-workflow.md">📋 Workflow 6 ขั้น (PDF)</a>
+  </div>
+  
+  <div class="step-insight" style="margin-top:20px">
+    <strong>📚 อ้างอิง:</strong> HR Toolkit 5 ส่วน (STAR + 3 มิติ + Self-Reflection + Scoring Rubric + คำถามปิด) ใช้คู่กับ Workflow 6 ขั้น
+  </div>
+</section>
+
+<footer>
+  🎓 แผนฝึกคนใหม่ — Role Model Extraction Training · สร้างโดย อลิเคล้า (AliClaw) · 23 ก.ค. 2569<br>
+  <a href="https://rattapornkachakaewpkg-commits.github.io/role-model/">← กลับไป Role Model — เคส AAM take care</a>
+</footer>
+
+</div>
+</body>
+</html>
