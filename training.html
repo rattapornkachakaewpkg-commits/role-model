@@ -90,6 +90,17 @@
   /* Footer */
   footer{text-align:center;color:var(--muted);font-size:13px;margin-top:30px;padding:20px}
   
+  /* Audit badge */
+  .audit-banner{background:linear-gradient(135deg,#fef2f2,#fee2e2);border-left:5px solid #dc2626;padding:16px 20px;border-radius:8px;margin:16px 0;font-size:14px}
+  .audit-banner strong{color:#dc2626}
+  .s7{background:#dc2626}
+  .checklist{list-style:none;margin:10px 0;padding:0}
+  .checklist li{padding:8px 12px;margin:6px 0;background:#f0f9ff;border-left:4px solid var(--primary-light);border-radius:4px;font-size:14px}
+  .checklist li::before{content:"🔎 ";margin-right:6px}
+  .compare-3col{font-size:13px}
+  .compare-3col .new{background:#d1fae5}
+  .compare-3col .audit{background:#fee2e2}
+  
   /* Print */
   @media print{
     .quick-nav,.cta{display:none}
@@ -256,7 +267,7 @@
 </section>
 
 <section id="workflow">
-  <h2>🔄 Workflow 6 ขั้น (ภาพรวม)</h2>
+  <h2>🔄 Workflow 7 ขั้น (ภาพรวม) — เพิ่มขั้น 7: Anti-fraud Audit 🛡️</h2>
   
   <div class="workflow">┌─────────────────────────────────────────────────────────────────┐
 │  🎬 INPUT: เคสจริงจากสนาม                                      │
@@ -299,8 +310,14 @@
         │  "Story/Guide/Behavior/Recognition"   │
         └──────────────┬───────────────────────┘
                        ▼
+        ┌──────────────────────────────────────┐
+        │  🆕 ขั้น 7: Anti-fraud Audit         │
+        │  🛡️ ทักษะ: Audit/Anti-fraud          │
+        │  "ตรวจสอบว่า Role Model นั้น 'จริง'"  │
+        └──────────────┬───────────────────────┘
+                       ▼
 ┌──────────────────────────────────────────────────────────────────┐
-│  📦 OUTPUT: Role Model Profile (4 ชิ้น) + คนที่ผ่านเกณฑ์ 7+   │
+│  📦 OUTPUT: Role Model Profile (4 ชิ้น) + หลักฐานยืนยัน ✅      │
 └──────────────────────────────────────────────────────────────────┘</div>
   
   <h3>📋 รายละเอียดแต่ละขั้น</h3>
@@ -380,56 +397,76 @@
     <div class="step-insight">💡 <strong>ทักษะ HR:</strong> วัดผลด้วยเกณฑ์ชัดเจน ไม่ bias + แยก "ดี" vs "ต้นแบบ"</div>
   </div>
   
-  <div class="step">
+  <div class="step" style="border-left-color:#dc2626;background:linear-gradient(to right,#fef2f2,white)">
     <div class="step-header">
-      <div class="step-num">6</div>
-      <h4>ปิดเคส + ถ่ายทอด</h4>
-      <span class="step-skill">🎁 L&D</span>
+      <div class="step-num" style="background:#dc2626">7</div>
+      <h4>🆕 Anti-fraud Audit</h4>
+      <span class="step-skill" style="background:#dc2626">🛡️ Audit/Anti-fraud</span>
     </div>
     <table>
-      <tr><td>HR ทำอะไร</td><td>ปิดเคส + ผลิต 4 ชิ้น + ถ่ายทอดสู่คนอื่น</td></tr>
-      <tr><td>4 Outputs</td><td>📖 Story Script · ❓ Guide คำถาม · 📊 Behavior Indicators · 🏆 Recognition</td></tr>
-      <tr><td>ตัวอย่าง</td><td>เคสสมาชิก ทีม KBB → 4 ชิ้น live ที่ <code>index.html</code></td></tr>
-      <tr><td>เครื่องมือ</td><td>Template 4 ชิ้น + ช่องทางเผยแพร่</td></tr>
+      <tr><td>HR ทำอะไร</td><td>ตรวจสอบ 4 ข้อ ก่อนประกาศ "นี่คือ Role Model"</td></tr>
+      <tr><td>4 Checklist</td><td>
+        <ul class="checklist">
+          <li><strong>หลักฐาน:</strong> ขอรูปถ่าย/ชื่อลูกค้า/วันที่ ที่อ้างถึง</li>
+          <li><strong>สามเส้า:</strong> ถามหัวหน้า/เพื่ออ่อน/ลูกค้า ยืนยัน</li>
+          <li><strong>ย้อนถาม:</strong> "ถ้าเจอเหตุการณ์เดิม จะทำเหมือนเดิมไหม?"</li>
+          <li><strong>ตรวจเวลา:</strong> เคสเกิดก่อน/หลังการสัมภาษณ์</li>
+        </ul>
+      </td></tr>
+      <tr><td>ตัวอย่าง</td><td>เคสสมาชิก ทีม KBB: ✅ มีรูปเยี่ยมลุง + ลุงกล่าวขอบคุณ + กองทุน AAM take care เปิดจริง</td></tr>
+      <tr><td>เครื่องมือ</td><td>Audit Checklist + Multi-rater (HR + หัวหน้า + เพื่ออ่อน)</td></tr>
     </table>
-    <div class="step-insight">💡 <strong>ทักษะ HR:</strong> ทำให้ความรู้ "หมุนเวียน" — ไม่หยุดอยู่ที่คนเดียว</div>
+    <div class="step-insight" style="background:#fee2e2;color:#7f1d1d">💡 <strong>ทักษะ HR:</strong> ป้องกัน "Role Model ปลอม" — คนที่เล่าดีแต่ทำไม่เป็น<br>⚠️ <strong>เตือน:</strong> แม้ AI ที่ไม่มีจิตใจ/กิเลส ยังโกงได้ — คนยิ่งต้องตรวจสอบให้ดี</div>
+  </div>
+  
+  <div class="audit-banner">
+    <strong>📰 ที่มาของขั้น 7:</strong> จากข่าว <strong>Fudan Data Mining (ศ.เซียว หยังหัว)</strong> — นร.ออกโจทย์ให้ AI ทำ, AI ตอบผิด = นร.ได้คะแนน. แต่ GPT-5.5-Pro โกง (แก้เฉลย, ลด reasoning คู่แข่ง). นร.จึงต้องตั้ง "ป.ป.ช. ไซเบอร์" ดักจับ → <strong>HR ก็ต้องทำเหมือนกัน</strong>
   </div>
 </section>
 
 <section id="compare">
-  <h2>🆚 เปรียบเทียบ: HR แบบเดิม vs HR ที่สกัด Role Model</h2>
-  <table class="compare-table">
+  <h2>🆚 เปรียบเทียบ: HR 3 ยุค</h2>
+  <table class="compare-table compare-3col">
     <thead>
-      <tr><th>มิติ</th><th>HR แบบเดิม</th><th>HR ที่สกัด Role Model</th></tr>
+      <tr><th>มิติ</th><th>HR แบบเดิม</th><th>HR ที่สกัด Role Model</th><th>HR ที่มี Audit 🆕</th></tr>
     </thead>
     <tbody>
       <tr>
         <td><strong>เป้าหมาย</strong></td>
         <td class="old">คัดคนเก่ง</td>
-        <td class="new"><strong>สกัด "ความเก่ง" ออกมาเป็น Model</strong></td>
+        <td class="new">สกัด "ความเก่ง" ออกมาเป็น Model</td>
+        <td class="audit"><strong>สกัด + ยืนยันว่า "ความเก่ง" นั้นจริง</strong></td>
       </tr>
       <tr>
         <td><strong>เครื่องมือ</strong></td>
         <td class="old">Resume + Interview</td>
         <td class="new">เคสจริง + STAR + 3 มิติ + Rubric</td>
+        <td class="audit">+ Audit Checklist + Multi-rater</td>
       </tr>
       <tr>
         <td><strong>ผลลัพธ์</strong></td>
         <td class="old">คนได้ตำแหน่ง</td>
-        <td class="new"><strong>คนได้ตำแหน่ง + คนอื่นเอาไปเรียนได้</strong></td>
+        <td class="new">คนได้ตำแหน่ง + คนอื่นเอาไปเรียนได้</td>
+        <td class="audit"><strong>+ ป้องกัน Role Model ปลอม</strong></td>
       </tr>
       <tr>
         <td><strong>ความรู้</strong></td>
         <td class="old">อยู่ในตัวคน</td>
-        <td class="new"><strong>กลายเป็น Model ที่องค์กรใช้ซ้ำได้</strong></td>
+        <td class="new">กลายเป็น Model ที่องค์กรใช้ซ้ำได้</td>
+        <td class="audit"><strong>+ Model ที่ "ตรวจสอบได้"</strong></td>
       </tr>
       <tr>
-        <td><strong>การวัดผล</strong></td>
-        <td class="old">ผลงาน (Output)</td>
-        <td class="new">ผลงาน + Model ที่สกัดได้ (Output + Asset)</td>
+        <td><strong>จุดอ่อน</strong></td>
+        <td class="old">คน "เล่าเก่ง" แต่ทำไม่เป็น</td>
+        <td class="new">คน "ทำจริง" แต่เล่าไม่เป็นก็ติด 5-6 ได้</td>
+        <td class="audit"><strong>ตรวจได้ครบทั้ง 2 ด้าน</strong></td>
       </tr>
     </tbody>
   </table>
+  
+  <div class="step-insight" style="margin-top:16px">
+    <strong>💡 Lesson จาก Fudan:</strong> แม้ AI ที่ไม่มีจิตใจ/กิเลส ยังโกงได้เมื่อถูกตั้งเป้า "ต้องชนะ" — HR ที่ดีต้อง <strong>ตรวจสอบ + ยืนยัน</strong> ก่อนเชื่อ Role Model ใดๆ
+  </div>
 </section>
 
 <section id="start">
