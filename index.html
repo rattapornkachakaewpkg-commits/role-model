@@ -208,6 +208,107 @@
     margin-right: 8px;
   }
 
+  /* ===== Step Card (สำหรับ Workflow steps) ===== */
+  .step-card {
+    background: linear-gradient(135deg, #fef2f2, #fee2e2);
+    border-radius: 12px;
+    padding: 20px 24px;
+    margin: 16px 0;
+    border: 1px solid #fecaca;
+    position: relative;
+  }
+  .step-card-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+  .step-card-num {
+    background: #dc2626;
+    color: #fff;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+  .step-card-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: #1f2937;
+    flex: 1;
+  }
+  .step-card-badge {
+    background: #dc2626;
+    color: #fff;
+    padding: 6px 12px;
+    border-radius: 16px;
+    font-size: 12px;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+  .step-card table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 10px 0;
+    font-size: 14px;
+    background: transparent;
+    box-shadow: none;
+  }
+  .step-card td {
+    padding: 8px 10px;
+    border: none;
+    vertical-align: top;
+    background: transparent;
+  }
+  .step-card td:first-child {
+    font-weight: 600;
+    color: #7c3aed;
+    width: 30%;
+  }
+  .step-card-checklist {
+    background: #f0f9ff;
+    border-left: 4px solid #3b82f6;
+    border-radius: 6px;
+    padding: 10px 14px;
+    margin: 8px 0;
+    font-size: 14px;
+    list-style: none;
+  }
+  .step-card-checklist li {
+    padding: 4px 0;
+    color: #1e40af;
+  }
+  .step-card-checklist li::before {
+    content: "🔎 ";
+    margin-right: 4px;
+  }
+  .step-card-insight {
+    background: #fef3c7;
+    border-radius: 6px;
+    padding: 10px 14px;
+    margin-top: 12px;
+    font-size: 14px;
+    color: #78350f;
+    line-height: 1.6;
+  }
+  .step-card-insight strong { color: #d97706; }
+  .step-card-source {
+    background: linear-gradient(135deg, #fef2f2, #fee2e2);
+    border-left: 5px solid #dc2626;
+    padding: 14px 18px;
+    border-radius: 8px;
+    margin-top: 16px;
+    font-size: 14px;
+    color: #7f1d1d;
+    line-height: 1.6;
+  }
+  .step-card-source strong { color: #dc2626; }
+
   .method-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -802,21 +903,35 @@
     <p><strong>เครื่องมือ:</strong> Scoring Rubric 1 หน้า + Multi-rater (HR + หัวหน้า)</p>
   </div>
 
-  <div class="topic-card" style="background:linear-gradient(135deg,#fef2f2,#fee2e2);border-color:#fecaca">
-    <h4><span class="topic-num" style="background:#dc2626">7</span>🆕 Anti-fraud Audit — 🛡️ Audit/Anti-fraud</h4>
-    <p><strong>HR ทำอะไร:</strong> ตรวจสอบ 4 ข้อ ก่อนประกาศ "นี่คือ Role Model"</p>
-    <p><strong>4 Checklist:</strong></p>
-    <ul>
-      <li>🔎 <strong>หลักฐาน:</strong> ขอรูปถ่าย/ชื่อลูกค้า/วันที่ ที่อ้างถึง</li>
-      <li>🔎 <strong>สามเส้า:</strong> ถามหัวหน้า/เพื่ออ่อน/ลูกค้า ยืนยัน</li>
-      <li>🔎 <strong>ย้อนถาม:</strong> "ถ้าเจอเหตุการณ์เดิม จะทำเหมือนเดิมไหม?"</li>
-      <li>🔎 <strong>ตรวจเวลา:</strong> เคสเกิดก่อน/หลังการสัมภาษณ์</li>
-    </ul>
-    <p><strong>เครื่องมือ:</strong> Audit Checklist + Multi-rater (HR + หัวหน้า + เพื่ออ่อน)</p>
+  <div class="step-card">
+    <div class="step-card-header">
+      <span class="step-card-num">7</span>
+      <span class="step-card-title">🆕 Anti-fraud Audit</span>
+      <span class="step-card-badge">🛡️ Audit/Anti-fraud</span>
+    </div>
+
+    <table>
+      <tr><td>HR ทำอะไร</td><td>ตรวจสอบ 4 ข้อ ก่อนประกาศ "นี่คือ Role Model"</td></tr>
+      <tr><td>4 Checklist</td><td>
+        <ul class="step-card-checklist">
+          <li><strong>หลักฐาน:</strong> ขอรูปถ่าย/ชื่อลูกค้า/วันที่ ที่อ้างถึง</li>
+          <li><strong>สามเส้า:</strong> ถามหัวหน้า/เพื่ออ่อน/ลูกค้า ยืนยัน</li>
+          <li><strong>ย้อนถาม:</strong> "ถ้าเจอเหตุการณ์เดิม จะทำเหมือนเดิมไหม?"</li>
+          <li><strong>ตรวจเวลา:</strong> เคสเกิดก่อน/หลังการสัมภาษณ์</li>
+        </ul>
+      </td></tr>
+      <tr><td>ตัวอย่าง</td><td>เคสสมาชิก ทีม KBB: ✅ มีรูปเยี่ยมลุง + ลุงกล่าวขอบคุณ + กองทุน AAM take care เปิดจริง</td></tr>
+      <tr><td>เครื่องมือ</td><td>Audit Checklist + Multi-rater (HR + หัวหน้า + เพื่ออ่อน)</td></tr>
+    </table>
+
+    <div class="step-card-insight">
+      💡 <strong>ที่มา HR:</strong> ป้องกัน "Role Model ปลอม" — คนที่เล่าดีแต่ทำไม่เป็น<br>
+      ⚠️ <strong>เตือน:</strong> แม้ AI ที่ไม่มีจิตใจ/กิเลส ยังโกงได้ — คนยิ่งต้องตรวจสอบให้ดี
+    </div>
   </div>
 
-  <div class="insight-box" style="background:linear-gradient(135deg,#fef2f2,#fee2e2);border-left-color:#dc2626">
-    <strong style="color:#dc2626">📰 ที่มาของขั้น 7:</strong> จากข่าว <strong>Fudan Data Mining</strong> — นร.ออกโจทย์ให้ AI ทำ, AI ตอบผิด = นร.ได้คะแนน. แต่ GPT-5.5-Pro โกง (แก้เฉลย, ลด reasoning คู่แข่ง). นร.จึงต้องตั้ง "ป.ป.ช. ไซเบอร์" ดักจับ → <strong>HR ก็ต้องทำเหมือนกัน</strong>
+  <div class="step-card-source">
+    <strong>📰 ที่มาของขั้น 7:</strong> จากข่าว <strong>Fudan Data Mining (ศ.เซียว หยังหัว)</strong> — นร.ออกโจทย์ให้ AI ทำ, AI ตอบผิด = นร.ได้คะแนน. แต่ GPT-5.5-Pro โกง (แก้เฉลย, ลด reasoning คู่แข่ง). นร.จึงต้องตั้ง "ป.ป.ช. ไซเบอร์" ดักจับ → <strong>HR ก็ต้องทำเหมือนกัน</strong>
   </div>
 
   <!-- ===== เปรียบเทียบ 3 ยุค ===== -->
