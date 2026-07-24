@@ -447,16 +447,14 @@
 <h1>🌟 Role Model — เคส AAM take care</h1>
 <p class="subtitle">กรณีที่ 1: ลูกค้า (ปกปิดตาม PDPA) | โครงการ AAM take care | มิถุนายน 2563</p>
 
-<!-- ===== Tab Navigation ===== -->
+<!-- ===== Tab Navigation (2 Main Tab) ===== -->
 <nav class="tab-nav" role="tablist">
-  <button class="tab-btn active" data-tab="case" role="tab" aria-selected="true">🟣 เคส AAM take care</button>
-  <button class="tab-btn" data-tab="workflow" role="tab" aria-selected="false">📋 Work flow</button>
+  <button class="tab-btn active" data-tab="workflow" role="tab" aria-selected="true">📋 Work flow</button>
   <button class="tab-btn" data-tab="curriculum" role="tab" aria-selected="false">📚 Training Curriculum</button>
-  <button class="tab-btn" data-tab="enablers" role="tab" aria-selected="false">🛡️ Org Enablers</button>
 </nav>
 
-<!-- ===== Tab 1: เคส AAM take care (เดิม) ===== -->
-<div class="tab-panel" data-tab="case">
+<!-- ===== Tab 1: Work flow (เคส AAM take care + Workflow 7 ขั้น + 6-day plan + HR Skills + Org Enablers) ===== -->
+<div class="tab-panel" data-tab="workflow">
 
 <div class="case-box">
   📌 <strong>บริบท:</strong> สกัด Role Model จากเรื่องจริง เพื่อใช้สอน/เสวนา/คัดเลือกคนต้นแบบในองค์กร
@@ -707,10 +705,9 @@
 </p>
 
 </div>
-<!-- /tab-panel case -->
+<!-- /case content -->
 
-<!-- ===== Tab 2: Work flow (Workflow 7 ขั้น + 6-day plan + HR Skills) ===== -->
-<div class="tab-panel" data-tab="workflow" hidden>
+<!-- ===== Work flow content (Workflow 7 ขั้น + 6-day plan + HR Skills) ===== -->
 <div class="workflow-body" style="padding-top:8px">
 
   <div class="breadcrumb">
@@ -1049,11 +1046,11 @@
     📅 เนื้อหาจาก training.html · สร้างโดย อลิเคล้า (AliClaw) · 23 ก.ค. 2569
   </div>
 
-</div>
+<!-- /work flow content -->
 </div>
 <!-- /tab-panel workflow -->
 
-<!-- ===== Tab 3: Training Curriculum ===== -->
+<!-- ===== Tab 2: Training Curriculum ===== -->
 <div class="tab-panel" data-tab="curriculum" hidden>
 <div class="curriculum-body">
 
@@ -1373,8 +1370,7 @@
 </div>
 <!-- /tab-panel curriculum -->
 
-<!-- ===== Tab 4: Org Enablers ===== -->
-<div class="tab-panel" data-tab="enablers" hidden>
+<!-- ===== Org Enablers content ===== -->
 <div class="enablers-body" style="padding-top:8px">
 
   <div class="breadcrumb">
@@ -1492,30 +1488,48 @@
   <!-- ===== สูตร + คนตรงข้าม ===== -->
     📅 สร้างเมื่อ: 23 ก.ค. 2569 · โดย อลิเคล้า (AliClaw) · ในมุมมอง HR ระดับโลก<br>
     อ้างอิง: เคส AAM take care (สมาชิกทีม KBB) — กรณีที่ 1: ลูกค้า (ปกปิดตาม PDPA)
-  </div>
-
 </div>
-</div>
-<!-- /tab-panel enablers -->
+<!-- /enablers content -->
 
-<!-- ===== Tab Switching JS ===== -->
+<!-- ===== Tab Switching JS (with deep-link via #workflow / #curriculum) ===== -->
 <script>
 (function initTabs() {
   const buttons = document.querySelectorAll('.tab-btn');
   const panels = document.querySelectorAll('.tab-panel');
+
+  function activateTab(name) {
+    buttons.forEach(b => {
+      const isActive = b.dataset.tab === name;
+      b.classList.toggle('active', isActive);
+      b.setAttribute('aria-selected', isActive ? 'true' : 'false');
+    });
+    panels.forEach(p => {
+      p.hidden = (p.dataset.tab !== name);
+    });
+  }
+
   buttons.forEach(btn => {
     btn.addEventListener('click', () => {
       const target = btn.dataset.tab;
-      buttons.forEach(b => {
-        const isActive = b === btn;
-        b.classList.toggle('active', isActive);
-        b.setAttribute('aria-selected', isActive ? 'true' : 'false');
-      });
-      panels.forEach(p => {
-        p.hidden = (p.dataset.tab !== target);
-      });
+      activateTab(target);
+      history.replaceState(null, '', '#' + target);
       window.scrollTo({ top: 0, behavior: 'smooth' });
     });
+  });
+
+  // Deep-link: เปิด tab จาก hash เช่น index.html#curriculum
+  const initialHash = (location.hash || '').replace('#', '');
+  if (initialHash && [...buttons].some(b => b.dataset.tab === initialHash)) {
+    activateTab(initialHash);
+  } else {
+    // default: workflow
+    activateTab('workflow');
+  }
+
+  // Listen for hash change
+  window.addEventListener('hashchange', () => {
+    const h = (location.hash || '').replace('#', '');
+    if ([...buttons].some(b => b.dataset.tab === h)) activateTab(h);
   });
 })();
 </script>
